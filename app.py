@@ -10,7 +10,7 @@ client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 risk_data = pd.read_csv("risk_data.csv")
 
 # Page configuration
-st.set_page_config(page_title="Jobsite Risk Advisor", page_icon="🏗️")
+st.set_page_config(page_title="Jobsite Risk Advisor")
 
 # Load and display custom logo if available
 try:
@@ -23,7 +23,9 @@ try:
 except:
     st.title("🏗️ Jobsite Risk Advisor")
 
-st.write("Describe your site issue below. I’ll evaluate the risk and recommend mitigation steps.")
+st.write("This AI Chatbot supports Construction Managers in Risk Assessment and Mitigation for Large Construciton Project. Start by selecting an example prompt below, then type a custom prompt in the text box if necessary.
+
+Describe your site issue below. I’ll evaluate the risk and recommend mitigation steps.")
 
 # Starter prompts
 example_prompts = {
