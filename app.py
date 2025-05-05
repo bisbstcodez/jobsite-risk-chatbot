@@ -12,16 +12,15 @@ risk_data = pd.read_csv("risk_data.csv")
 # Page configuration
 st.set_page_config(page_title="Jobsite Risk Advisor")
 
-# Load and display custom logo if available
+# Load and display custom logo above the title (stacked layout)
 try:
     logo = Image.open("logo.png")
-    col1, col2 = st.columns([1, 4])
-    with col1:
-        st.image(logo, width=80)
-    with col2:
-        st.title("🏗️ Jobsite Risk Advisor")
+    st.image(logo, width=300)
 except:
-    st.title("🏗️ Jobsite Risk Advisor")
+    pass  # If logo not found, continue without crashing
+
+# App title centered under logo
+st.markdown("<h1 style='text-align: center;'>Jobsite Risk Advisor</h1>", unsafe_allow_html=True)
 
 st.write("This AI Chatbot supports Construction Managers in Risk Assessment and Mitigation for Large Construciton Project. Start by selecting an example prompt below, then type a custom prompt in the text box if necessary. I’ll evaluate the risk and recommend mitigation steps.")
 
