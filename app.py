@@ -3,7 +3,7 @@ import pandas as pd
 from openai import OpenAI
 from PIL import Image
 
-# Load API key from Streamlit secrets
+# Load OpenAI API key from Streamlit secrets
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 # Load risk knowledge base
@@ -12,7 +12,7 @@ risk_data = pd.read_csv("risk_data.csv")
 # Page configuration
 st.set_page_config(page_title="🏗️ Jobsite Risk Advisor", page_icon="🏗️")
 
-# Optional: Load logo if available
+# Load and display custom logo if available
 try:
     logo = Image.open("logo.png")
     col1, col2 = st.columns([1, 4])
@@ -25,46 +25,43 @@ except:
 
 st.write("Describe your site issue below. I’ll evaluate the risk and recommend mitigation steps.")
 
-# Example starter prompts
+# Starter prompts
 example_prompts = {
     "weather": "Heavy rain has delayed concrete pouring by 2 days.",
     "permit": "We’re still waiting on the city to approve our trenching permit.",
     "safety": "A worker slipped on loose gravel near the lift station."
 }
 
-# Initialize session state
+# Session state for persistent input
 if "user_input" not in st.session_state:
     st.session_state.user_input = ""
 
-# Display text area
-user_input = st.text_area(
-    "Enter your site condition or issue:",
-    value=st.session_state.user_input,
-    height=150
-)
-
-# Display example buttons
+# Buttons to insert starter examples
 st.markdown("#### 📝 Example site issues:")
 col1, col2, col3 = st.columns(3)
 with col1:
     if st.button("🌧️ Weather Delay"):
         st.session_state.user_input = example_prompts["weather"]
-        st.experimental_rerun()
 with col2:
     if st.button("📋 Permit Issue"):
         st.session_state.user_input = example_prompts["permit"]
-        st.experimental_rerun()
 with col3:
     if st.button("⚠️ Safety Concern"):
         st.session_state.user_input = example_prompts["safety"]
-        st.experimental_rerun()
 
-# Reset button
+# Reset input
 if st.button("🔄 Reset Input"):
     st.session_state.user_input = ""
-    st.experimental_rerun()
 
-# Match risks from CSV
+# Text area with persisted input
+user_input = st.text_area(
+    "Enter your site condition or issue:",
+    value=st.session_state.user_input,
+    height=150
+)
+st.session_state.user_input = user_input  # keep updated
+
+# Function to match risks from CSV
 def identify_relevant_risks(text, data):
     matches = []
     for _, row in data.iterrows():
@@ -72,7 +69,7 @@ def identify_relevant_risks(text, data):
             matches.append(row)
     return matches
 
-# Generate AI response
+# Function to generate OpenAI response
 def generate_ai_response(user_text, matched_risks):
     risks_text = ""
     for risk in matched_risks:
@@ -106,7 +103,7 @@ Respond in 1–2 clear, professional paragraphs.
         return f"⚠️ Error generating response: {e}"
 
 # Evaluate button
-if st.button("✅ Evaluate Risk") and user_input:
+if st.button("✅ Evaluate Risk") and user_input.strip():
     matched_risks = identify_relevant_risks(user_input, risk_data)
     ai_response = generate_ai_response(user_input, matched_risks)
     st.markdown("### 🧠 Risk Evaluation")
