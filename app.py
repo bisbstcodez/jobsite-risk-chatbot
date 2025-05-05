@@ -23,9 +23,7 @@ try:
 except:
     st.title("🏗️ Jobsite Risk Advisor")
 
-st.write("This AI Chatbot supports Construction Managers in Risk Assessment and Mitigation for Large Construciton Project. Start by selecting an example prompt below, then type a custom prompt in the text box if necessary.
-
-Describe your site issue below. I’ll evaluate the risk and recommend mitigation steps.")
+st.write("This AI Chatbot supports Construction Managers in Risk Assessment and Mitigation for Large Construciton Project. Start by selecting an example prompt below, then type a custom prompt in the text box if necessary. Describe your site issue below. I’ll evaluate the risk and recommend mitigation steps.")
 
 # Starter prompts
 example_prompts = {
