@@ -10,7 +10,7 @@ client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 risk_data = pd.read_csv("risk_data.csv")
 
 # Page configuration
-st.set_page_config(page_title="🏗️ Jobsite Risk Advisor", page_icon="🏗️")
+st.set_page_config(page_title="Jobsite Risk Advisor", page_icon="🏗️")
 
 # Load and display custom logo if available
 try:
