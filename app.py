@@ -7,7 +7,11 @@ from PIL import Image
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 # Load risk knowledge base
-risk_data = pd.read_csv("risk_data.csv")
+try:
+    risk_data = pd.read_csv("risk_data.csv", on_bad_lines='warn', encoding='utf-8', delimiter=',')
+except Exception as e:
+    st.error(f"⚠️ Failed to load risk data: {e}")
+    risk_data = pd.DataFrame()  # Use empty DataFrame to prevent crashes
 
 # Page configuration
 st.set_page_config(page_title="Jobsite Risk Advisor")
